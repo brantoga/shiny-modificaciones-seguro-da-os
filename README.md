@@ -1,2 +1,8 @@
-# shiny-modificaciones-seguro-da-os
-Dashboard en shiny que permite visualizar las múltiples modificaciones a una V.A. tales como el deducible (ordinario o franchise), límite de póliza, coaseguro e inflación, así como elegir la distribución y sus parámetros.
+# Dashboard de modificaciones para la V.A. de pérdida en un seguro de daños
+Dashboard en shiny que permite visualizar en ggplot las múltiples modificaciones a una V.A. tales como:
+- Deducible (ordinario o franchise) 
+- Límite de póliza
+- Coaseguro 
+- Inflación
+
+También es posible elegir la distribución y sus parámetros.
