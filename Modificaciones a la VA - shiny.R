@@ -1,74 +1,73 @@
-################################                                     Proyecto 3
 ################################################################################
-##########    Librerías    #####################################################
+##########    LibrerÃ­as    #####################################################
 ################################################################################
 library(MASS) #Distribuciones de Probabilidad
-library(actuar) #Modificaciones en la v.a de pérdida X
+library(actuar) #Modificaciones en la v.a de pÃ©rdida X
 library(ggplot2) #Plots
 library(shiny) #Dashboards
 library(bslib) #Temas de shiny
 
 ################################################################################
-##########    Diseño de tablero    #############################################
+##########    DiseÃ±o de tablero    #############################################
 ################################################################################
 ui <- navbarPage("Modificaciones a la Variable Aleatoria",
                 theme = bs_theme(bootswatch = "united"),
                 tabPanel("Plot", icon = icon("chart-bar"),
                          sidebarLayout(position = "right",
                                        sidebarPanel(
-                                         h4("Seleccione las modificaciones de interés"),
+                                         h4("Seleccione las modificaciones de interÃ©s"),
                                          checkboxInput("deducible", "Deducible", TRUE),
                                          radioButtons("tipo", label=NULL,
                                                       c("Ordinario" = "ord",
                                                         "Franchise" = "fra")),
                                          sliderInput(inputId = "ded",label=NULL,
                                                      value=0.5,min=0,max=10,step = 0.1),
-                                         checkboxInput("limite", "Límite de póliza", TRUE),
+                                         checkboxInput("limite", "LÃ­mite de pÃ³liza", TRUE),
                                          sliderInput(inputId = "lim",label=NULL,
                                                      value=1,min=0,max=10,step = 0.1),
                                          checkboxInput("coaseguro", "Coaseguro", TRUE),
                                          sliderInput(inputId = "coa",label=NULL,
                                                      value=0.90,min=0,max=1,step = 0.01),
-                                         checkboxInput("inflacion", "Inflación", TRUE),
+                                         checkboxInput("inflacion", "InflaciÃ³n", TRUE),
                                          sliderInput(inputId = "inf",label=NULL,
                                                      value=0.05,min=0,max=1,step = 0.01),
                                                     ),
                                        mainPanel(
                                          tabsetPanel(
-                                          tabPanel("V.A. de Pérdida", plotOutput("plot"),icon = icon("car-crash")),
+                                          tabPanel("V.A. de PÃ©rdida", plotOutput("plot"),icon = icon("car-crash")),
                                           tabPanel("V.A. de Pago", plotOutput("plot2"),icon = icon("hand-holding-usd")), 
                                           type="pills"
                                          )
                                        )
                                        ),
-                         wellPanel(h4("Seleccione los parámetros deseados"),
+                         wellPanel(h4("Seleccione los parÃ¡metros deseados"),
                                    fluidRow(column(3,
                                                    selectInput('dist',label="Distribuciones",
                                                    choices = c("Gamma","Normal","F","Logistic",
                                                                "Log-Logistic","Log-Normal",
                                                                "t de Student","Weibull")),value="Gamma"),
                                             column(3,
-                                                   sliderInput(inputId = "p1",label="Parámetro 1",
+                                                   sliderInput(inputId = "p1",label="ParÃ¡metro 1",
                                                    value=4,min=0,max=20,step=0.1)),
                                             column(3,
-                                                   sliderInput(inputId = "p2",label="Parámetro 2",
+                                                   sliderInput(inputId = "p2",label="ParÃ¡metro 2",
                                                    value=3,min=0,max=20,step=0.1)),
                                             column(3, verbatimTextOutput("t"))
                                            )
                                    ),
                           ),
-                navbarMenu("Más", icon = icon("info-circle"),
+                navbarMenu("MÃ¡s", icon = icon("info-circle"),
                              tabPanel("Resumen",
                                       h4("Datos"),
                                       verbatimTextOutput("r1"),
-                                      h4("Resumen de la densidad de los datos empirícos"),
+                                      h4("Resumen de la densidad de los datos empirÃ­cos"),
                                       verbatimTextOutput("r2"),
-                                      h4("Resumen de la densidad de los datos modificados en la V.A. de pérdida"),
+                                      h4("Resumen de la densidad de los datos modificados en la V.A. de pÃ©rdida"),
                                       verbatimTextOutput("r3"),
                                       h4("Resumen de la densidad de los datos modificados en la V.A. de pago"),
                                       verbatimTextOutput("r4")
                                       ),
-                             tabPanel("Tabla de V.A. de pérdida", verbatimTextOutput("t1")),
+                             tabPanel("Tabla de V.A. de pÃ©rdida", verbatimTextOutput("t1")),
                              tabPanel("Tabla de V.A. de pago", verbatimTextOutput("t2"))
                 )
 )
@@ -88,7 +87,7 @@ server<-function(input,output){
   cfra <- reactive({if(input$tipo =="fra"){TRUE}else{FALSE}})
   
   a <- seq(from=0, to=10, by = 0.01)
-  d <- rep("Empiríca", times = 1001)
+  d <- rep("EmpirÃ­ca", times = 1001)
   e <- rep("Modificada", times = 1001)
 
   b<-reactive({
@@ -118,7 +117,7 @@ server<-function(input,output){
     }
   })
 
-  #datos para tab de pérdida ###################################################
+  #datos para tab de pÃ©rdida ###################################################
   
   m<-reactive({
     if(input$dist=="Normal"){
@@ -243,16 +242,16 @@ server<-function(input,output){
   })
   
   output$t <- renderPrint({
-    "Autor: Brando Alberto Toribio García"
+    "Autor: Brando Alberto Toribio GarcÃ­a"
   })
   
-  resumen <- reactive(data.frame(Distribución = c(input$dist),
-                                 Parámetro_1 = c(input$p1),
-                                 Parámetro_2 = c(input$p2),
+  resumen <- reactive(data.frame(DistribuciÃ³n = c(input$dist),
+                                 ParÃ¡metro_1 = c(input$p1),
+                                 ParÃ¡metro_2 = c(input$p2),
                                  Deducible = c(input$ded),
-                                 Límite = c(input$lim),
+                                 LÃ­mite = c(input$lim),
                                  Coaseguro = c(input$coa),
-                                 Inflación = c(input$inf)
+                                 InflaciÃ³n = c(input$inf)
                                  ))
   
   output$r1 <- renderPrint({
@@ -282,7 +281,7 @@ server<-function(input,output){
 }
 
 ################################################################################
-##########     PUBLICACIÓN     #################################################
+##########     PUBLICACIÃ“N     #################################################
 ################################################################################
 shinyApp(ui=ui,server=server)
 
